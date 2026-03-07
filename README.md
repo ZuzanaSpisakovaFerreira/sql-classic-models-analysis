@@ -23,7 +23,9 @@ Before starting, I had to answer a citical question: Which subject areas do we n
 - **Order Line Details** (Product preferences)
 
 - I specifically prepared this data at the **Customer Level** because segmentation requires every row to represent one unique customer, with all their details spread across multiple columns.
-- ---------------------------------------------------------------------
+
+---
+
 **Building the Pipeline**
 
 
@@ -45,6 +47,7 @@ SELECT
     creditLimit
 FROM customers;
 ```
+---
 
 ### **Part 2: Understanding Customer Buying Habits (RFM Analysis)**
 
@@ -97,9 +100,9 @@ FROM classicmodels.orders O
 JOIN classicmodels.orderdetails OD
 ON O.orderNumber = OD.orderNumber
 GROUP BY customerNumber;
-<img width="667" height="243" alt="image" src="https://github.com/user-attachments/assets/f9cf44da-42ed-4c7b-9674-52ff0789fcf8" />
 
 ```
+---
 
 ### **Part 3:** Order Line (OL) & Producy Behavior
 
@@ -193,14 +196,14 @@ on cf.customerNumber= cpl.customerNumber;
 
 SELECT * FROM finaltableformachinelearning;
 ```
----
+
 
 ###**Conclusion:**
 By transforming raw data into this structured **Master Dataset**, I have provided a verified, audit-reday foundation. 
 This allows the bussiness to move directly into building a **Customer Segmentation** model with total confidencein the data´s integrity
 
 
-
+---
 
 
 ## **3. Busines Insights (SQÇ Analysis)**
