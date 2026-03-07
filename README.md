@@ -116,7 +116,7 @@ By creating order-line level details, I can identify which product categories a 
 
 3. **The Results:**  I created the `analysis.customerproductlines`table, which provides a clear "Interest Profile" for every customer
 
----
+
 ```
 -- I join 3 tables to pivot sales data into customer-level features.
 
@@ -166,7 +166,7 @@ This is the most critical step of my project where I combine all four prepared t
 
 3. **The Results:** I created the `analysis.finaltableformachinelearning`. This table is now a high dimensional record where every row represents one unique customer, fully ready for analysis and machine learning
 
----
+
 ```
 -- ASSEMLING THE MASTER DATASET FOR ML
 -- Merging all layers/tables into he final "Master Dataset" using LEFT JOIN to ensure no customer is lost in the process.
