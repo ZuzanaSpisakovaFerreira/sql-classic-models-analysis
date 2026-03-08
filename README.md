@@ -165,7 +165,7 @@ This is the most critical step of my project where I combine all four prepared t
 2. **Data Integrity Check:** Important part of my process was veryfying the row counts. The final table must have the exact same number of rows as the basic info tables. This ensures that every customer is accounted for, regardless of their purchase history.
 
 3. **The Results:** I created the `analysis.finaltableformachinelearning`. This table is now a high dimensional record where every row represents one unique customer, fully ready for analysis and machine learning
-
+**
 
 ```
 -- ASSEMLING THE MASTER DATASET FOR ML
@@ -206,4 +206,63 @@ This allows the bussiness to move directly into building a **Customer Segmentati
 ---
 
 
-## **3. Busines Insights (SQÇ Analysis)**
+## **3. Business Intelligence & Strategic Reporting**
+
+To make this project complete, I am adding a section that use this dataset to solve 10 specific business requests. 
+By running these quesries against the Classic Models , I can provide immediate answers to stakeholders regarding:
+	- **Logist Audits:**  Identifying shipping delays and delivery performance.
+	- **Revenue Audits:**  Identifying high-value customers and profitable product lines.
+	- **Risk & Credit:** Comparing customer credit limits against actual habits.
+
+### **1: Tracking Active Orders**
+-**Logic:** Filtering the orders table identify transactions that are not yet "Shiped" or "Resolved" to monitor current operational status.
+	
+```
+SELECT orderNumber, status, orderDate, customerNumber
+FROM orders
+WHERE status NOT IN ('Shipped', 'Resolved');
+```
+<img width="356" height="275" alt="Tracking Active Orders" src="https://github.com/user-attachments/assets/6b9de3ad-e2ec-438b-bc9e-cf603a8bff8e" />
+
+| Order Number | Status | Order Date | Customer Number |
+ | :--- | :--- | :--- | :--- |
+| 10167 | Cancelled | 2003-10-23 | 448 |
+| 10179 | Cancelled | 2003-11-11 | 496 |
+| 10248 | Cancelled | 2004-05-07 | 131 |
+| 10253 | Cancelled | 2004-06-01 | 201 |
+| 10260 | Cancelled | 2004-06-16 | 357 |
+| 10262 | Cancelled | 2004-06-24 | 141 |
+| 10334 | On Hold | 2004-11-19 | 144 |
+| 10401 | On Hold | 2005-04-03 | 328 |
+| 10406 | Disputed | 2005-04-15 | 145 |
+| 10407 | On Hold | 2005-04-22 | 450 |
+
+**Note:** *This audit identified a total of **19 orders** requiring follow-up.
+--The results above shows a representative sample of active and cancelled records.*
+
+### **2: Geographic Market Footprint**
+-**Logic:** Grouping customers by country to identify key regions for logistics optimization and market expansion
+	
+```
+SELECT country, COUNT(*) AS totalCustomers
+FROM customers
+GROUP BY country
+ORDER BY totalCustomers DESC;
+```
+<img width="430" height="328" alt="Geographic Market Footprint" src="https://github.com/user-attachments/assets/b5b51986-75d6-4ce0-baaa-1da890c95c70" />
+
+| Country | Total Customers |
+| :--- | :--- |
+| USA | 36 |
+| Germany | 13 |
+| France | 12 |
+| Spain | 7 |
+| Australia | 5 |
+| UK | 5 |
+| Italy | 4 |
+| New Zealand | 4 |
+| Norway | 3 |
+| Singapore | 3 |
+
+**Note:** *This audit identifies the USA as a primary market, followed by a strong presence in Germany and France.
+This data helps stakeholders make informed decisions regarding regional resource allocation and logistics planning.*
