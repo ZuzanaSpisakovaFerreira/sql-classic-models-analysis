@@ -266,3 +266,91 @@ ORDER BY totalCustomers DESC;
 
 **Note:** *This audit identifies the USA as a primary market, followed by a strong presence in Germany and France.
 This data helps stakeholders make informed decisions regarding regional resource allocation and logistics planning.*
+
+### **3: Inventory Risk: Low Stock Audit**
+-**Logic:** Filtering the products table for items with a quantityInStock below a critical treshold (e.g.,1000 units) to prevent supply chain disruptions.
+ Inventory Risk: Low Stock Audit
+
+```
+SELECT productName, productLINE, quantityInStock
+FROM products
+WHERE quantityInStock < 1000
+ORDER BY quantityInStock ASC;
+```
+<img width="458" height="346" alt="Inventory Risk_ Low Stock Audit" src="https://github.com/user-attachments/assets/1058b29d-00e6-44da-9066-88edfe822249" />
+
+ | Product Name | Product Line | Quantity In Stock |
+ | :--- | :--- | :--- |
+ | 1960 BSA Gold Star DBD34 | Motorcycles | 15 | 
+ | 1968 Ford Mustang | Classic Cars | 68 | 
+ | 1928 Ford Phaeton Deluxe | Vintage Cars | 136 | 
+ | 1997 BMW F650 ST | Motorcycles | 178 | 
+ | Pont Yacht | Ships | 414 | 
+ | 1911 Ford Town Car | Vintage Cars | 540 | 
+ | 1928 Mercedes-Benz SSK | Vintage Cars | 548 | 
+ | F/A 18 Hornet 1/72 | Planes | 551 | 
+ | 2002 Yamaha YZR M1 | Motorcycles | 600 | 
+ | The Mayflower | Ships | 737 | 
+ | 1996 Peterbilt 379 Stake Bed with Outrigger | Trucks and Buses | 814 |
+ 
+**Note:** *This audit identifies high priority inventory items requiring immediate replenishment to avoid stockouts.*
+
+### **3: Financial Audit: Spend vs. Credit Limit Discrepancy**
+-**Logic:** Joining customers and payments to identify high-risk clients whose total spending exceeds their assigned creditLimit
+
+```
+SELECT c.customerName, c.creditLimit, SUM(p.amount) AS totalSpent
+FROM customers c
+JOIN payments p ON c.customerNumber=p.customerNumber
+GROUP BY c.customerName, c.creditLimit
+HAVING totalSpent> c.creditLimit;
+```
+
+<img width="527" height="322" alt="Spend vs  Credit Limit Discrepancy" src="https://github.com/user-attachments/assets/a975ecda-3af5-4802-bd01-0460eb728235" />
+
+ | Customer Name | Credit Limit | Total Spent | 
+ | :--- | :--- | :--- | 
+ | Atelier graphique | 21,000.00 | 25,814.36 | 
+ | Signal Gift Stores | 71,800.00 | 80,180.98 | 
+ | Australian Collectors, Co. | 117,300.00 | 180,585.07 | 
+ | Baane Mini Imports | 81,700.00 | 104,224.79 | 
+ | Mini Gifts Distributors Ltd. | 210,500.00 | 584,188.24 | 
+ | Blauer See Auto, Co. | 59,700.00 | 75,937.76 | 
+ | Mini Wheels Co. | 64,600.00 | 66,710.56 | 
+ | Euro+ Shopping Channel | 227,600.00 | 715,738.98 | 
+ | Danish Wholesale Imports | 83,400.00 | 107,446.50 | 
+ | Saveley & Henriot, Co. | 123,900.00 | 130,305.35 |
+
+**Note:** *This audit identified key accounts where actual transactions volume significantly exceeds acredit tresholds.*
+
+This audit identified key accounts where actual transaction volume significantly exceeds credit thresholds. 
+
+
+### **5 : Sales Representative KPI Performance**
+-**Logic:** Connecting employees, customers and payments to evaluate which sales reps are driving the most revenue, supporting data driven performance reviews
+
+```
+SELECT CONCAT(e.firstName,'',e.lastName) AS salesRep,
+	   SUM(p.amount) AS totalRevenue
+FROM employees e
+JOIN customers c ON e.employeeNumber=c.salesRepEmployeeNumber
+JOIN payments p ON c.customerNumber = p.customerNumber
+GROUP BY salesRep
+ORDER BY totalRevenue DESC;
+```
+<img width="479" height="357" alt="Sales Representative KPI Performance" src="https://github.com/user-attachments/assets/654f3595-953b-46db-85e6-1468494e96c2" />
+
+| Sales Rep Name | Total Revenue (USD) |
+| :--- | :--- | 
+| Gerard Hernandez | 1,115,503.81 | 
+| Leslie Jennings | 989,906.55 | 
+| Pamela Castillo | 750,201.87 | 
+| Larry Bott | 686,653.25 | 
+| Barry Jones | 637,672.65 | 
+| George Vanauf | 584,406.80 | 
+| Loui Bondur | 569,485.75 | 
+| Andy Fixter | 509,385.82 | 
+| Peter Marsh | 497,907.16 | 
+| Foon Yue Tseng | 488,212.67 |
+
+-**Logic:** *This KPI report identifies our top-performing sales representatives by actual collected revenue*
