@@ -208,6 +208,8 @@ This allows the bussiness to move directly into building a **Customer Segmentati
 
 ## **3. Business Intelligence & Strategic Reporting**
 
+[📂 View Complete SQL Script](./business_intelligence_queries)
+
 To make this project complete, I am adding a section that use this dataset to solve 10 specific business requests. 
 By running these quesries against the Classic Models , I can provide immediate answers to stakeholders regarding:
 	- **Logist Audits:**  Identifying shipping delays and delivery performance.
@@ -236,9 +238,9 @@ WHERE status NOT IN ('Shipped', 'Resolved');
 | 10401 | On Hold | 2005-04-03 | 328 |
 | 10406 | Disputed | 2005-04-15 | 145 |
 | 10407 | On Hold | 2005-04-22 | 450 |
+*Note: The results above shows a representative sample of active and cancelled records.*
 
-**Note:** *This audit identified a total of **19 orders** requiring follow-up.
---The results above shows a representative sample of active and cancelled records.*
+**Analysis Note:** *This audit identified a total of **19 orders** requiring follow-up.
 
 ### **2: Geographic Market Footprint**
 -**Logic:** Grouping customers by country to identify key regions for logistics optimization and market expansion
@@ -263,8 +265,9 @@ ORDER BY totalCustomers DESC;
 | New Zealand | 4 |
 | Norway | 3 |
 | Singapore | 3 |
+*Results shown are a partial sample for demonstration purposes.*
 
-**Note:** *This audit identifies the USA as a primary market, followed by a strong presence in Germany and France.
+** Analysis Note:** *This audit identifies the USA as a primary market, followed by a strong presence in Germany and France.
 This data helps stakeholders make informed decisions regarding regional resource allocation and logistics planning.*
 
 ### **3: Inventory Risk: Low Stock Audit**
@@ -292,10 +295,11 @@ ORDER BY quantityInStock ASC;
  | 2002 Yamaha YZR M1 | Motorcycles | 600 | 
  | The Mayflower | Ships | 737 | 
  | 1996 Peterbilt 379 Stake Bed with Outrigger | Trucks and Buses | 814 |
- 
-**Note:** *This audit identifies high priority inventory items requiring immediate replenishment to avoid stockouts.*
+ | P-51-D Mustang| Planes | 992 |
 
-### **3: Financial Audit: Spend vs. Credit Limit Discrepancy**
+**Analysis Note:** *This audit identifies high priority inventory items requiring immediate replenishment to avoid stockouts.*
+
+### **4: Financial Audit: Spend vs. Credit Limit Discrepancy**
 -**Logic:** Joining customers and payments to identify high-risk clients whose total spending exceeds their assigned creditLimit
 
 ```
@@ -320,12 +324,11 @@ HAVING totalSpent> c.creditLimit;
  | Euro+ Shopping Channel | 227,600.00 | 715,738.98 | 
  | Danish Wholesale Imports | 83,400.00 | 107,446.50 | 
  | Saveley & Henriot, Co. | 123,900.00 | 130,305.35 |
+*Note: The table above displays a representative sample of a full query results.*
 
-**Note:** *This audit identified key accounts where actual transactions volume significantly exceeds acredit tresholds.*
+** Analysis Note:** *This audit identified key accounts where actual transactions volume significantly exceeds acredit tresholds.*
 
-This audit identified key accounts where actual transaction volume significantly exceeds credit thresholds. 
-
-
+ 
 ### **5 : Sales Representative KPI Performance**
 - **Logic:** Connecting employees, customers and payments to evaluate which sales reps are driving the most revenue, supporting data driven performance reviews
 
@@ -352,8 +355,9 @@ ORDER BY totalRevenue DESC;
 | Andy Fixter | 509,385.82 | 
 | Peter Marsh | 497,907.16 | 
 | Foon Yue Tseng | 488,212.67 |
+*Note: The table above displays a representative sample of a full query results.*
 
-**Note:** *This KPI report identifies our top-performing sales representatives by actual collected revenue*
+**Analysis Note:** *This KPI report identifies our top-performing sales representatives by actual collected revenue*
 
 ### **6 :Revenue Performance by Customer (Top 5) **
 - **Logic:** Joining the customers and payments tables to identify our most valuable partners by total spend. This fosuses on the Revenue in Dataset.
@@ -366,6 +370,8 @@ GROUP BY c.customerName
 ORDER BY totalPaid DESC
 LIMIT 5;
 ```
+<img width="536" height="284" alt="Revenue Performance by Customer (Top 5)" src="https://github.com/user-attachments/assets/5921d507-9e8e-426f-a94a-bb3007ff1ab6" />
+
 | Customer Name | Total Paid (USD) | 
 | :--- | :--- | 
 | Euro+ Shopping Channel | 715,738.98 | 
@@ -374,7 +380,7 @@ LIMIT 5;
 | Muscle Machine Inc | 177,913.95 | 
 | Dragon Souveniers, Ltd. | 156,251.03 |
 
-**Note:** *This report identifies the TOP 5 revenue contributors. 
+**Analysis Note:** *This report identifies the TOP 5 revenue contributors. 
 By tracking these high-value accounts, we can ensure specialized logistics support and maintain high servis standart.*
 
 ### **7 : Logistics Audit: Late Shimpments & Ownership **
@@ -387,11 +393,13 @@ JOIN customers c ON o.customerNumber = c.customerNumber
 JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber
 WHERE o.shippedDate > o.requiredDate;
 ```
+<img width="533" height="206" alt="Logistics Audit_Late Shimpments $ Ownership" src="https://github.com/user-attachments/assets/8363cf9d-bdff-4664-a829-bd3c71de93c1" />
+
  | Order Number | Customer Name | Sales Representative Name | 
  | :--- | :--- | :--- | 
  | 10165 | Dragon Souveniers, Ltd. | Mami Nishi |
 
-**Note:** * This audit identified only one instance where the shipment date exceeded the deadline.
+**Analysis Note:** * This audit identified only one instance where the shipment date exceeded the deadline.
 Identifying this single anomaly is essential for maintaining 100% accuracy.*
 
 ### **8 : Market Segmentation: Credit Risk Analysis **
@@ -409,13 +417,15 @@ SELECT
 FROM customers
 GROUP BY customerTier;
 ```
+<img width="454" height="305" alt="Market Segmentation_Credit Risk Analysis" src="https://github.com/user-attachments/assets/4acf305a-4a36-4b50-bfb5-9bac007583c6" />
+
 | Customer Tier | Customer Count | 
 | :--- | :--- | 
 | Platinum | 31 | 
 | Gold | 54 | 
 | Silver | 37 |
 
-**Note:** * This segmentation enables prioritized risk mitigation.*
+**Analysis Note:** * This segmentation enables prioritized risk mitigation.*
 
 ### **9 : Highest Revenue by Product Line **
  **Logic:** I join the orderdetails and products table to calculate total revenue per category
@@ -428,6 +438,8 @@ JOIN products p ON od.productCode = p.productCode
 GROUP BY p.productLine
 ORDER BY totalRevenue DESC;
 ```
+<img width="485" height="290" alt="Highest Revenue by Product Line" src="https://github.com/user-attachments/assets/8432755c-c7df-4c42-95e3-191ddc92fcdf" />
+
 | Product Line | Total Revenue (USD) | 
 | :--- | :--- | 
 | Classic Cars | 3,853,922.49 | 
@@ -438,7 +450,7 @@ ORDER BY totalRevenue DESC;
 | Ships | 663,998.34 | 
 | Trains | 188,532.92 |
 
-**Note:** * Ranking product lines allows for optimized resource allocation
+**Analysis Note:** * Ranking product lines allows for optimized resource allocation
 and ensures 100% fulfillment accuracy within the global OTO (Order-to-Order) workflow.*
 
 ### **10 : Organizational Hierarchy Audit (Self-Join) **
@@ -452,6 +464,8 @@ SELECT
 FROM employees e
 LEFT JOIN employees m ON e.reportsTo = m.employeeNumber;
 ```
+<img width="443" height="388" alt="Organizational Hierarchy Audit (Self-Join)" src="https://github.com/user-attachments/assets/5d3dc1a3-3744-46ff-acd8-5eb2d80ea5b3" />
+
 | Employee Name | Job Title | Reports To Manager | 
 | :--- | :--- | :--- | 
 | Diane Murphy | President | NULL | 
@@ -466,5 +480,6 @@ LEFT JOIN employees m ON e.reportsTo = m.employeeNumber;
 | Steve Patterson | Sales Rep | Anthony Bow | 
 | Foon Yue Tseng | Sales Rep | Anthony Bow | 
 | George Vanauf | Sales Rep | Anthony Bow |
+*Note: The table above displays a representative sample of a full query results.*
 
-**Note:** * This audit guarantees internal accountibility and prevents operational gasps.*
+**Analysis Note:** * This audit guarantees internal accountibility and prevents operational gasps.*
