@@ -213,9 +213,12 @@ This allows the bussiness to move directly into building a **Customer Segmentati
 
 To make this project complete, I am adding a section that use this dataset to solve 10 specific business requests. 
 By running these quesries against the Classic Models , I can provide immediate answers to stakeholders regarding:
-	- **Logist Audits:**  Identifying shipping delays and delivery performance.
-	- **Revenue Audits:**  Identifying high-value customers and profitable product lines.
-	- **Risk & Credit:** Comparing customer credit limits against actual habits.
+	
+**Logistic Audits:** Identifying shipping delays and delivery performance.
+
+**Revenue Audits:** Identifying high-value customers and profitable product lines.
+
+**Risk & Credit:** Comparing customer credit limits against actual habits.
 
 ### **1: Tracking Active Orders**
 **Logic:** Filtering the orders table identify transactions that are not yet "Shiped" or "Resolved" to monitor current operational status.	
