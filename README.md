@@ -12,6 +12,7 @@ This project  uses the classicmodels database, a standard industry schema repres
 
 ## **2. ML Data Preparation (Customer -Level Pipeline)**
 [📂 View Complete SQL Script](./customer_segmentation_ml_feature_engineering.sql)
+
 The objective of this project is to transform raw sales data into a comprehensive **Master Dataset** that is 100% ready Machine Learning use. Iam responsible for the **feature engineering and data architecture** required to make a Customer Segmentation model successful.
 
 **The "Right Question" Logic**
