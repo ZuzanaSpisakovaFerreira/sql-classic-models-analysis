@@ -217,8 +217,7 @@ By running these quesries against the Classic Models , I can provide immediate a
 	- **Risk & Credit:** Comparing customer credit limits against actual habits.
 
 ### **1: Tracking Active Orders**
--**Logic:** Filtering the orders table identify transactions that are not yet "Shiped" or "Resolved" to monitor current operational status.
-	
+**Logic:** Filtering the orders table identify transactions that are not yet "Shiped" or "Resolved" to monitor current operational status.	
 ```
 SELECT orderNumber, status, orderDate, customerNumber
 FROM orders
@@ -243,7 +242,7 @@ WHERE status NOT IN ('Shipped', 'Resolved');
 **Analysis Note:** *This audit identified a total of **19 orders** requiring follow-up.
 
 ### **2: Geographic Market Footprint**
--**Logic:** Grouping customers by country to identify key regions for logistics optimization and market expansion
+**Logic:** Grouping customers by country to identify key regions for logistics optimization and market expansion
 	
 ```
 SELECT country, COUNT(*) AS totalCustomers
@@ -267,11 +266,11 @@ ORDER BY totalCustomers DESC;
 | Singapore | 3 |
 *Results shown are a partial sample for demonstration purposes.*
 
-** Analysis Note:** *This audit identifies the USA as a primary market, followed by a strong presence in Germany and France.
+**Analysis Note:** *This audit identifies the USA as a primary market, followed by a strong presence in Germany and France.
 This data helps stakeholders make informed decisions regarding regional resource allocation and logistics planning.*
 
 ### **3: Inventory Risk: Low Stock Audit**
--**Logic:** Filtering the products table for items with a quantityInStock below a critical treshold (e.g.,1000 units) to prevent supply chain disruptions.
+**Logic:** Filtering the products table for items with a quantityInStock below a critical treshold (e.g.,1000 units) to prevent supply chain disruptions.
  Inventory Risk: Low Stock Audit
 
 ```
@@ -300,7 +299,7 @@ ORDER BY quantityInStock ASC;
 **Analysis Note:** *This audit identifies high priority inventory items requiring immediate replenishment to avoid stockouts.*
 
 ### **4: Financial Audit: Spend vs. Credit Limit Discrepancy**
--**Logic:** Joining customers and payments to identify high-risk clients whose total spending exceeds their assigned creditLimit
+**Logic:** Joining customers and payments to identify high-risk clients whose total spending exceeds their assigned creditLimit
 
 ```
 SELECT c.customerName, c.creditLimit, SUM(p.amount) AS totalSpent
@@ -326,11 +325,10 @@ HAVING totalSpent> c.creditLimit;
  | Saveley & Henriot, Co. | 123,900.00 | 130,305.35 |
 *Note: The table above displays a representative sample of a full query results.*
 
-** Analysis Note:** *This audit identified key accounts where actual transactions volume significantly exceeds acredit tresholds.*
+**Analysis Note:** *This audit identified key accounts where actual transactions volume significantly exceeds acredit tresholds.*
 
- 
-### **5 : Sales Representative KPI Performance**
-- **Logic:** Connecting employees, customers and payments to evaluate which sales reps are driving the most revenue, supporting data driven performance reviews
+### **5: Sales Representative KPI Performance**
+**Logic:** Connecting employees, customers and payments to evaluate which sales reps are driving the most revenue, supporting data driven performance reviews
 
 ```
 SELECT CONCAT(e.firstName,'',e.lastName) AS salesRep,
@@ -359,8 +357,8 @@ ORDER BY totalRevenue DESC;
 
 **Analysis Note:** *This KPI report identifies our top-performing sales representatives by actual collected revenue*
 
-### **6 :Revenue Performance by Customer (Top 5) **
-- **Logic:** Joining the customers and payments tables to identify our most valuable partners by total spend. This fosuses on the Revenue in Dataset.
+### **6:Revenue Performance by Customer (Top 5)**
+**Logic:** Joining the customers and payments tables to identify our most valuable partners by total spend. This fosuses on the Revenue in Dataset.
 
 ```
 SELECT c.customerName, SUM(p.amount) AS totalPaid
@@ -383,7 +381,7 @@ LIMIT 5;
 **Analysis Note:** *This report identifies the TOP 5 revenue contributors. 
 By tracking these high-value accounts, we can ensure specialized logistics support and maintain high servis standart.*
 
-### **7 : Logistics Audit: Late Shimpments & Ownership **
+### **7: Logistics Audit: Late Shimpments & Ownership**
  **Logic:** I compare order dates to identify late shipments and join the customer and employee tables to determinate the responsible sales representative.
 ```
 SELECT o.orderNumber, c.customerName, 
@@ -399,10 +397,10 @@ WHERE o.shippedDate > o.requiredDate;
  | :--- | :--- | :--- | 
  | 10165 | Dragon Souveniers, Ltd. | Mami Nishi |
 
-**Analysis Note:** * This audit identified only one instance where the shipment date exceeded the deadline.
+**Analysis Note:** *This audit identified only one instance where the shipment date exceeded the deadline.
 Identifying this single anomaly is essential for maintaining 100% accuracy.*
 
-### **8 : Market Segmentation: Credit Risk Analysis **
+### **8: Market Segmentation: Credit Risk Analysis**
  **Logic:** I use a CASE statement to perform a  tiered financial risk assessment, segmenting clinets
  to ensure process integrity and strategic credit control.
 
@@ -425,9 +423,9 @@ GROUP BY customerTier;
 | Gold | 54 | 
 | Silver | 37 |
 
-**Analysis Note:** * This segmentation enables prioritized risk mitigation.*
+**Analysis Note:** *This segmentation enables prioritized risk mitigation.*
 
-### **9 : Highest Revenue by Product Line **
+### **9: Highest Revenue by Product Line**
  **Logic:** I join the orderdetails and products table to calculate total revenue per category
  and identify our primary global revenue drivers.
 
@@ -450,10 +448,10 @@ ORDER BY totalRevenue DESC;
 | Ships | 663,998.34 | 
 | Trains | 188,532.92 |
 
-**Analysis Note:** * Ranking product lines allows for optimized resource allocation
+**Analysis Note:** *Ranking product lines allows for optimized resource allocation
 and ensures 100% fulfillment accuracy within the global OTO (Order-to-Order) workflow.*
 
-### **10 : Organizational Hierarchy Audit (Self-Join) **
+### **10: Organizational Hierarchy Audit (Self-Join)**
  **Logic:** I perform a self-join on the employees table to audit reporting lines and ensure clear qwnership in our global OTO workflows.
 
 ```
@@ -478,8 +476,6 @@ LEFT JOIN employees m ON e.reportsTo = m.employeeNumber;
 | Leslie Thompson | Sales Rep | Anthony Bow | 
 | Julie Firrelli | Sales Rep | Anthony Bow | 
 | Steve Patterson | Sales Rep | Anthony Bow | 
-| Foon Yue Tseng | Sales Rep | Anthony Bow | 
-| George Vanauf | Sales Rep | Anthony Bow |
 *Note: The table above displays a representative sample of a full query results.*
 
-**Analysis Note:** * This audit guarantees internal accountibility and prevents operational gasps.*
+**Analysis Note:** *This audit guarantees internal accountibility and prevents operational gasps.*
