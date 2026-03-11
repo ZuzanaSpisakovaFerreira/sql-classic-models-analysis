@@ -327,7 +327,7 @@ This audit identified key accounts where actual transaction volume significantly
 
 
 ### **5 : Sales Representative KPI Performance**
--**Logic:** Connecting employees, customers and payments to evaluate which sales reps are driving the most revenue, supporting data driven performance reviews
+- **Logic:** Connecting employees, customers and payments to evaluate which sales reps are driving the most revenue, supporting data driven performance reviews
 
 ```
 SELECT CONCAT(e.firstName,'',e.lastName) AS salesRep,
@@ -353,4 +353,118 @@ ORDER BY totalRevenue DESC;
 | Peter Marsh | 497,907.16 | 
 | Foon Yue Tseng | 488,212.67 |
 
--**Logic:** *This KPI report identifies our top-performing sales representatives by actual collected revenue*
+**Note:** *This KPI report identifies our top-performing sales representatives by actual collected revenue*
+
+### **6 :Revenue Performance by Customer (Top 5) **
+- **Logic:** Joining the customers and payments tables to identify our most valuable partners by total spend. This fosuses on the Revenue in Dataset.
+
+```
+SELECT c.customerName, SUM(p.amount) AS totalPaid
+FROM customers c
+JOIN payments p ON c.customerNumber = p.customerNumber
+GROUP BY c.customerName
+ORDER BY totalPaid DESC
+LIMIT 5;
+```
+| Customer Name | Total Paid (USD) | 
+| :--- | :--- | 
+| Euro+ Shopping Channel | 715,738.98 | 
+| Mini Gifts Distributors Ltd. | 584,188.24 | 
+| Australian Collectors, Co. | 180,585.07 | 
+| Muscle Machine Inc | 177,913.95 | 
+| Dragon Souveniers, Ltd. | 156,251.03 |
+
+**Note:** *This report identifies the TOP 5 revenue contributors. 
+By tracking these high-value accounts, we can ensure specialized logistics support and maintain high servis standart.*
+
+### **7 : Logistics Audit: Late Shimpments & Ownership **
+ **Logic:** I compare order dates to identify late shipments and join the customer and employee tables to determinate the responsible sales representative.
+```
+SELECT o.orderNumber, c.customerName, 
+       CONCAT(e.firstName, ' ', e.lastName) AS salesRepName
+FROM orders o
+JOIN customers c ON o.customerNumber = c.customerNumber
+JOIN employees e ON c.salesRepEmployeeNumber = e.employeeNumber
+WHERE o.shippedDate > o.requiredDate;
+```
+ | Order Number | Customer Name | Sales Representative Name | 
+ | :--- | :--- | :--- | 
+ | 10165 | Dragon Souveniers, Ltd. | Mami Nishi |
+
+**Note:** * This audit identified only one instance where the shipment date exceeded the deadline.
+Identifying this single anomaly is essential for maintaining 100% accuracy.*
+
+### **8 : Market Segmentation: Credit Risk Analysis **
+ **Logic:** I use a CASE statement to perform a  tiered financial risk assessment, segmenting clinets
+ to ensure process integrity and strategic credit control.
+
+```
+SELECT 
+    CASE 
+        WHEN creditLimit > 100000 THEN 'Platinum'
+        WHEN creditLimit BETWEEN 50000 AND 100000 THEN 'Gold'
+        ELSE 'Silver'
+    END AS customerTier,
+    COUNT(*) AS customerCount
+FROM customers
+GROUP BY customerTier;
+```
+| Customer Tier | Customer Count | 
+| :--- | :--- | 
+| Platinum | 31 | 
+| Gold | 54 | 
+| Silver | 37 |
+
+**Note:** * This segmentation enables prioritized risk mitigation.*
+
+### **9 : Highest Revenue by Product Line **
+ **Logic:** I join the orderdetails and products table to calculate total revenue per category
+ and identify our primary global revenue drivers.
+
+```
+SELECT p.productLine, SUM(od.quantityOrdered * od.priceEach) AS totalRevenue
+FROM orderdetails od
+JOIN products p ON od.productCode = p.productCode
+GROUP BY p.productLine
+ORDER BY totalRevenue DESC;
+```
+| Product Line | Total Revenue (USD) | 
+| :--- | :--- | 
+| Classic Cars | 3,853,922.49 | 
+| Vintage Cars | 1,797,559.63 | 
+| Motorcycles | 1,121,426.12 | 
+| Trucks and Buses | 1,024,113.57 | 
+| Planes | 954,637.54 | 
+| Ships | 663,998.34 | 
+| Trains | 188,532.92 |
+
+**Note:** * Ranking product lines allows for optimized resource allocation
+and ensures 100% fulfillment accuracy within the global OTO (Order-to-Order) workflow.*
+
+### **10 : Organizational Hierarchy Audit (Self-Join) **
+ **Logic:** I perform a self-join on the employees table to audit reporting lines and ensure clear qwnership in our global OTO workflows.
+
+```
+SELECT 
+    CONCAT(e.firstName, ' ', e.lastName) AS employeeName,
+    e.jobTitle,
+    CONCAT(m.firstName, ' ', m.lastName) AS reportsToManager
+FROM employees e
+LEFT JOIN employees m ON e.reportsTo = m.employeeNumber;
+```
+| Employee Name | Job Title | Reports To Manager | 
+| :--- | :--- | :--- | 
+| Diane Murphy | President | NULL | 
+| Mary Patterson | VP Sales | Diane Murphy | 
+| Jeff Firrelli | VP Marketing | Diane Murphy | 
+| William Patterson | Sales Manager (APAC) | Mary Patterson | 
+| Gerard Bondur | Sale Manager (EMEA) | Mary Patterson | 
+| Anthony Bow | Sales Manager (NA) | Mary Patterson | 
+| Leslie Jennings | Sales Rep | Anthony Bow | 
+| Leslie Thompson | Sales Rep | Anthony Bow | 
+| Julie Firrelli | Sales Rep | Anthony Bow | 
+| Steve Patterson | Sales Rep | Anthony Bow | 
+| Foon Yue Tseng | Sales Rep | Anthony Bow | 
+| George Vanauf | Sales Rep | Anthony Bow |
+
+**Note:** * This audit guarantees internal accountibility and prevents operational gasps.*
